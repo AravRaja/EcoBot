@@ -1,81 +1,13 @@
-'''
 import streamlit as st
 import pandas as pd
 import requests
 import time
 
 # Flask Server URL
-SERVER_URL = "http://192.168.1.10:5001/latest"  # Replace with your actual PC IP
-
+SERVER_URL = "http://192.168.1.9:5001/latest"  # Replace with your actual PC IP
+st.markdown("[Go to Planting Grid 🌱](http://localhost:3000)", unsafe_allow_html=True)
 st.title("🌿 EcoBot Sensor Dashboard")
-st.markdown("### Real-Time Sensor Readings from Raspberry Pi Pico WH")
-
-# Initialize DataFrame
-sensor_data = pd.DataFrame(columns=["Timestamp", "Temperature (°C)", "Humidity (%)", 
-                                    "Moisture 1 (%)", "Moisture 2 (%)", "Moisture 3 (%)",
-                                    "Dew Point (°C)", "Heat Index (°C)"])
-
-# Create placeholders
-temp_placeholder = st.metric(label="🌡️ Temperature (°C)", value="Waiting...")
-humidity_placeholder = st.metric(label="💧 Humidity (%)", value="Waiting...")
-moisture1_placeholder = st.metric(label="🪴 Moisture Sensor 1 (%)", value="Waiting...")
-moisture2_placeholder = st.metric(label="🪴 Moisture Sensor 2 (%)", value="Waiting...")
-moisture3_placeholder = st.metric(label="🪴 Moisture Sensor 3 (%)", value="Waiting...")
-dew_point_placeholder = st.metric(label="☁️ Dew Point (°C)", value="Waiting...")
-heat_index_placeholder = st.metric(label="🔥 Heat Index (°C)", value="Waiting...")
-chart_placeholder = st.line_chart([])
-
-while True:
-    try:
-        response = requests.get(SERVER_URL)
-        if response.status_code == 200:
-            data = response.json()
-
-            timestamp = time.strftime("%H:%M:%S")
-
-            temp_placeholder.metric("🌡️ Temperature (°C)", data["temperature"])
-            humidity_placeholder.metric("💧 Humidity (%)", data["humidity"])
-            moisture1_placeholder.metric("🪴 Moisture Sensor 1 (%)", data["moisture"][0])
-            moisture2_placeholder.metric("🪴 Moisture Sensor 2 (%)", data["moisture"][1])
-            moisture3_placeholder.metric("🪴 Moisture Sensor 3 (%)", data["moisture"][2])
-            dew_point_placeholder.metric("☁️ Dew Point (°C)", data["dew_point"])
-            heat_index_placeholder.metric("🔥 Heat Index (°C)", data["heat_index"])
-
-            new_data = pd.DataFrame([[timestamp, data["temperature"], data["humidity"], 
-                                      data["moisture"][0], data["moisture"][1], data["moisture"][2], 
-                                      data["dew_point"], data["heat_index"]]],
-                                    columns=sensor_data.columns)
-
-            sensor_data = pd.concat([sensor_data, new_data], ignore_index=True)
-            chart_placeholder.line_chart(sensor_data.set_index("Timestamp"))
-
-        time.sleep(2)
-
-    except Exception as e:
-        st.warning(f"Error fetching data: {e}")
-'''
-
-import streamlit as st
-import pandas as pd
-import requests
-import time
-
-# Flask Server URL
-SERVER_URL = "http://192.168.1.10:5001/latest"  # Replace with your actual PC IP
-
-st.title("🌿 EcoBot Sensor Dashboard")
-st.markdown("### Real-Time Sensor Readings from Raspberry Pi Pico WH")
-
-# Explanation Section
-st.markdown("""
-### 🌍 Sensor Descriptions
-- **🌡️ Temperature (°C):** Measures ambient temperature.
-- **💧 Humidity (%):** Indicates the amount of moisture in the air.
-- **🪴 Zone 1 Moisture (%):** Soil moisture level in zone 1.
-- **🪴 Zone 2 Moisture (%):** Soil moisture level in zone 2.
-- **🪴 Zone 3 Moisture (%):** Soil moisture level in zone 3.
-- **☁️ Dew Point (°C):** Temperature at which dew forms.
-""")
+st.markdown("### Real-Time Sensor Readings from Raspberry Pi Pico ")
 
 # Initialize DataFrame
 sensor_data = pd.DataFrame(columns=["Timestamp", "Temperature (°C)", "Humidity (%)", 
@@ -111,9 +43,9 @@ def get_state(metric, value, index=None):
     except KeyError:
         return "❓ Unknown", "#95a5a6"
 
-# Create placeholders for sensor states (persists across updates)
+# Create placeholders for sensor states
 state_placeholders = []
-cols = st.columns(6)  # Reduced to 6 columns
+cols = st.columns(6)
 
 button_style = "background-color:{}; padding: 15px; border-radius: 10px; text-align: center; color: white; font-size: 16px; width: 100%; display: flex; justify-content: center; align-items: center; min-height: 50px;"
 label_style = "font-size: 12px; font-weight: bold; text-align: center;"
@@ -124,11 +56,11 @@ for i, (metric, key, index, label) in enumerate([
     ("moisture1", "moisture", 0, "🪴 Zone 1 Moisture"),
     ("moisture2", "moisture", 1, "🪴 Zone 2 Moisture"),
     ("moisture3", "moisture", 2, "🪴 Zone 3 Moisture"),
-    ("dew_point", "dew_point", None, "☁️ Dew Form Point")]):  # Removed heat index
+    ("dew_point", "dew_point", None, "☁️ Dew Form Point")]):
 
     with cols[i]:
         st.markdown(f"<div style='{label_style}'>{label}</div>", unsafe_allow_html=True)
-        state_placeholder = st.empty()  # Create an empty placeholder
+        state_placeholder = st.empty()
         state_placeholders.append(state_placeholder)
 
 # Add spacing before charts
@@ -136,6 +68,7 @@ st.markdown("---")
 
 # Placeholders for graphs
 general_chart_placeholder = st.empty()
+
 moisture_chart_placeholder = st.empty()
 
 while True:
@@ -152,7 +85,7 @@ while True:
                 ("moisture1", "moisture", 0, "🪴 Zone 1 Moisture"),
                 ("moisture2", "moisture", 1, "🪴 Zone 2 Moisture"),
                 ("moisture3", "moisture", 2, "🪴 Zone 3 Moisture"),
-                ("dew_point", "dew_point", None, "☁️ Dew Form Point")]):  # Removed heat index
+                ("dew_point", "dew_point", None, "☁️ Dew Form Point")]):
 
                 value = data.get(key, [None]*3)[index] if index is not None else data.get(key, None)
                 if value is not None:
@@ -167,7 +100,7 @@ while True:
                                       data.get("moisture", [None, None, None])[0], 
                                       data.get("moisture", [None, None, None])[1], 
                                       data.get("moisture", [None, None, None])[2], 
-                                      data.get("dew_point", None)]],  # Removed heat index
+                                      data.get("dew_point", None)]],
                                     columns=sensor_data.columns)
             
             sensor_data = pd.concat([sensor_data, new_data], ignore_index=True)
@@ -176,7 +109,7 @@ while True:
             st.markdown("---")
 
             # Update graphs dynamically
-            general_chart_placeholder.line_chart(sensor_data.set_index("Timestamp")[["Temperature (°C)", "Humidity (%)", "Dew Point (°C)"]])  # Removed heat index
+            general_chart_placeholder.line_chart(sensor_data.set_index("Timestamp")[["Temperature (°C)", "Humidity (%)", "Dew Point (°C)"]])
             moisture_chart_placeholder.line_chart(sensor_data.set_index("Timestamp")[["Zone 1 Moisture (%)", "Zone 2 Moisture (%)", "Zone 3 Moisture (%)"]])
 
         time.sleep(2)

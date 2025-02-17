@@ -1,0 +1,43 @@
+.grid-container {
+    text-align: center;
+    background-color: #D2B48C;
+    border: 5px solid #8B4513;
+    padding: 10px;
+    border-radius: 5px;
+    
+    /* Center the grid horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Makes it take the full viewport height */
+}
+
+.grid-row {
+    display: flex;
+    justify-content: center; /* Ensures rows are centered */
+}
+
+.grid-cell {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    border: 1px solid #8B4513;
+    background-color: #F4A460;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-cell.planted {
+    background-color: #4CAF50;
+}
+
+a {
+    display: block;
+    margin-top: 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #0066cc;
+}
