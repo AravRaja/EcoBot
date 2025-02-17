@@ -10,7 +10,7 @@ SSID = "SHELL_0FC4"
 PASSWORD = "5af5fc6cea324"
 
 # Flask Server IP (Your PC's local IP)
-SERVER_IP = "192.168.1.9"  # Change this to your actual PC IP
+SERVER_IP = "192.168.1.10"  # Change this to your actual PC IP
 SERVER_PORT = 5001
 SERVER_URL = f"http://{SERVER_IP}:{SERVER_PORT}/data"
 
