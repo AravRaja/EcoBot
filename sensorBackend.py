@@ -6,12 +6,12 @@ import dht
 import ujson
 
 # WiFi credentials (replace with your WiFi SSID and password)
-SSID = "SHELL_0FC4"
-PASSWORD = "5af5fc6cea324"
+SSID = "iPhone (241)"
+PASSWORD = "abcdefgh"
 
 # Flask Server IP (Your PC's local IP)
-SERVER_IP = "192.168.1.10"  # Change this to your actual PC IP
-SERVER_PORT = 5001
+SERVER_IP = "192.0.0.2"  # Change this to your actual PC IP
+SERVER_PORT = 5002
 SERVER_URL = f"http://{SERVER_IP}:{SERVER_PORT}/data"
 
 # Set up WiFi
@@ -32,6 +32,7 @@ moisture_sensors = [
     machine.ADC(28)
 ]
 
+
 # Set up the DHT11 sensor
 dht_sensor = dht.DHT11(machine.Pin(21))
 
@@ -45,10 +46,11 @@ while True:
     try:
         # Read moisture sensors
         moisture_levels = [read_moisture(sensor) for sensor in moisture_sensors]
-
+        print(moisture_levels)
         # Read temperature and humidity
         dht_sensor.measure()
         temperature = dht_sensor.temperature()
+        print(temperature)
         humidity = dht_sensor.humidity()
 
         # Compute Dew Point

@@ -4,8 +4,8 @@ import requests
 import time
 
 # Flask Server URL
-SERVER_URL = "http://192.168.1.9:5001/latest"  # Replace with your actual PC IP
-st.markdown("[Go to Planting Grid 🌱](http://localhost:3000)", unsafe_allow_html=True)
+SERVER_URL = "http://192.0.0.2:5002/latest"  # Replace with your actual PC IP
+st.markdown("[Go to Planting Grid 🌱](http://localhost:3001)", unsafe_allow_html=True)
 st.title("🌿 EcoBot Sensor Dashboard")
 st.markdown("### Real-Time Sensor Readings from Raspberry Pi Pico ")
 

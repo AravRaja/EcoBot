@@ -4,18 +4,16 @@
     border: 5px solid #8B4513;
     padding: 10px;
     border-radius: 5px;
-    
-    /* Center the grid horizontally and vertically */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Makes it take the full viewport height */
+    height: 100vh; /* Centers the grid vertically */
 }
 
 .grid-row {
     display: flex;
-    justify-content: center; /* Ensures rows are centered */
+    justify-content: center;
 }
 
 .grid-cell {
@@ -28,16 +26,61 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease-in-out; /* Smooth animation */
 }
 
+/* Hover effect - button grows slightly */
+.grid-cell:hover {
+    transform: scale(1.1);
+}
+
+/* Click effect - button shrinks momentarily */
+.grid-cell:active {
+    transform: scale(0.9);
+}
+
+/* Change planted color */
 .grid-cell.planted {
-    background-color: #4CAF50;
+    background-color: #aaf460;
 }
 
-a {
-    display: block;
-    margin-top: 15px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #0066cc;
+/* Reset & Start Planting Button Styling */
+.reset-button, .start-button {
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Reset Button */
+.reset-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Reset Button - Hover & Click Effects */
+.reset-button:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+.reset-button:active {
+    transform: scale(0.95);
+}
+
+/* Start Planting Button */
+.start-button {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Start Button - Hover & Click Effects */
+.start-button:hover {
+    background-color: #219150;
+    transform: scale(1.05);
+}
+.start-button:active {
+    transform: scale(0.95);
 }
